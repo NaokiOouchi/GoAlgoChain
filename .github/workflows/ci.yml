@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -21,14 +22,15 @@ jobs:
       - name: Install dependencies
         run: go mod tidy
 
-      - name: Run tests
-        run: go test ./...
-
-      - name: Run gofmt
+      - name: Run go fmt
         run: go fmt ./...
 
-      - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v3
+      - name: golangci-lint
+        uses: reviewdog/action-golangci-lint@v2
         with:
-          version: v1.50.1
-          args: run
+          github_token: '${{ github.token }}'
+          golangci_lint_flags: '--config=.golangci.yml'
+          reporter: github-pr-review
+
+      - name: Run tests
+        run: go test ./... -v

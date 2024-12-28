@@ -1,0 +1,18 @@
+run:
+  timeout: 1m
+issues:
+  exclude-use-default: false
+  exclude-rules:
+    - path: _test\.go
+      text: ".*"
+
+linters:
+  enable:
+    - govet
+    - errcheck
+    - staticcheck
+    - unused
+    - gosimple
+    - misspell
+    - lll
+    - gofumpt
