@@ -1,11 +1,19 @@
 package algo
 
-// HeapSortOperation is an Operation that sorts a slice of data using the HeapSort algorithm.
+// HeapSortOperation sorts data using the heap sort algorithm.
+// It provides stable sorting with O(n log n) time complexity.
 type HeapSortOperation[T any] struct {
 	Comparator func(a, b T) bool
 }
 
-// Apply is an Operation that sorts a slice of data using the HeapSort algorithm.
+// Apply performs the heap sort operation on the data.
+// It sorts the data in-place based on the provided comparator function.
+//
+// Example:
+//
+//	pipeline := NewPipeline[int]().
+//	    HeapSort(func(a, b int) bool { return a < b })
+//	result, err := pipeline.Execute()
 func (h *HeapSortOperation[T]) Apply(data []T) ([]T, error) {
 	if len(data) == 0 {
 		return data, nil
@@ -50,7 +58,14 @@ func maxHeapify[T any](data []T, i, n int, cmp func(a, b T) bool) {
 	}
 }
 
-// HeapSort adds a HeapSortOperation to the pipeline.
+// HeapSort adds a heap sort operation to the pipeline.
+// The comparator function should return true when a should come before b in the sorted result.
+//
+// Example:
+//
+//	pipeline.HeapSort(func(a, b User) bool {
+//	    return a.Score > b.Score // Sort by score in descending order
+//	})
 func (p *Pipeline[T]) HeapSort(comparator func(a, b T) bool) *Pipeline[T] {
 	p.operations = append(p.operations, &HeapSortOperation[T]{Comparator: comparator})
 	return p

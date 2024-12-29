@@ -1,11 +1,19 @@
 package algo
 
-// QuickSortOperation is an Operation that sorts a slice of data using the QuickSort algorithm.
+// QuickSortOperation sorts data using the quicksort algorithm.
+// It provides efficient in-place sorting with O(n log n) average time complexity.
 type QuickSortOperation[T any] struct {
 	Comparator func(a, b T) bool
 }
 
-// Apply sorts the data using the QuickSort algorithm.
+// Apply performs the quicksort operation on the data.
+// It sorts the data in-place based on the provided comparator function.
+//
+// Example:
+//
+//	pipeline := NewPipeline[int]().
+//	    QuickSort(func(a, b int) bool { return a < b })
+//	result, err := pipeline.Execute()
 func (q *QuickSortOperation[T]) Apply(data []T) ([]T, error) {
 	if len(data) <= 1 {
 		return data, nil
@@ -85,7 +93,14 @@ func insertionSort[T any](data []T, low, high int, cmp func(a, b T) bool) {
 	}
 }
 
-// QuickSort adds a QuickSortOperation to the pipeline.
+// QuickSort adds a quicksort operation to the pipeline.
+// The comparator function should return true when a should come before b in the sorted result.
+//
+// Example:
+//
+//	pipeline.QuickSort(func(a, b Product) bool {
+//	    return a.Price < b.Price // Sort by price in ascending order
+//	})
 func (p *Pipeline[T]) QuickSort(comparator func(a, b T) bool) *Pipeline[T] {
 	p.operations = append(p.operations, &QuickSortOperation[T]{Comparator: comparator})
 	return p

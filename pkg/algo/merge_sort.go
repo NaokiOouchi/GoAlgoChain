@@ -1,21 +1,27 @@
 package algo
 
-// MergeSortOperation is an Operation that sorts a slice of data using merge sort.
+// MergeSortOperation sorts data using the merge sort algorithm.
+// It provides stable sorting with O(n log n) time complexity and uses O(n) additional space.
 type MergeSortOperation[T any] struct {
 	Comparator func(a, b T) bool
 }
 
-// Apply applies the merge sort operation to the data.
+// Apply performs the merge sort operation on the data.
+// It returns a sorted slice based on the provided comparator function.
+//
+// Example:
+//
+//	pipeline := NewPipeline[float64]().
+//	    MergeSort(func(a, b float64) bool { return a < b })
+//	result, err := pipeline.Execute()
 func (m *MergeSortOperation[T]) Apply(data []T) ([]T, error) {
 	if len(data) < 2 {
 		return data, nil
 	}
 
-	// 作業用バッファを再利用
 	buffer := make([]T, len(data))
 	copy(buffer, data)
 
-	// インプレースマージソートの実装
 	mergeSort(data, buffer, 0, len(data)-1, m.Comparator)
 
 	return data, nil
@@ -54,7 +60,14 @@ func merge[T any](data, buffer []T, left, mid, right int, cmp func(a, b T) bool)
 	}
 }
 
-// MergeSort sorts a slice of data using merge sort.
+// MergeSort adds a merge sort operation to the pipeline.
+// The comparator function should return true when a should come before b in the sorted result.
+//
+// Example:
+//
+//	pipeline.MergeSort(func(a, b Order) bool {
+//	    return a.Priority > b.Priority // Sort by priority in descending order
+//	})
 func (p *Pipeline[T]) MergeSort(comparator func(a, b T) bool) *Pipeline[T] {
 	p.operations = append(p.operations, &MergeSortOperation[T]{Comparator: comparator})
 	return p
