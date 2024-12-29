@@ -7,7 +7,7 @@ import (
 
 func TestMergeSortOperation(t *testing.T) {
 	pipeline := NewPipeline[Item]().
-		MergeSort(func(a, b Item) int { return a.ID - b.ID })
+		MergeSort(func(a, b Item) bool { return a.ID < b.ID })
 
 	data := []Item{
 		{ID: 3, Name: "Item3", Active: true},
@@ -37,7 +37,7 @@ func TestMergeSortOperation(t *testing.T) {
 
 func TestMergeSortOperation_AlreadySorted(t *testing.T) {
 	pipeline := NewPipeline[int]().
-		MergeSort(func(a, b int) int { return a - b })
+		MergeSort(func(a, b int) bool { return a < b })
 
 	data := []int{1, 2, 3, 4, 5}
 
@@ -57,7 +57,7 @@ func TestMergeSortOperation_AlreadySorted(t *testing.T) {
 
 func TestMergeSortOperation_EmptySlice(t *testing.T) {
 	pipeline := NewPipeline[string]().
-		MergeSort(func(a, b string) int { return len(a) - len(b) })
+		MergeSort(func(a, b string) bool { return a < b })
 
 	var data []string
 
