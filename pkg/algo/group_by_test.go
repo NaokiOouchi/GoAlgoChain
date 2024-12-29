@@ -47,7 +47,7 @@ func TestGroupBy_SimpleGrouping(t *testing.T) {
 func TestGroupBy_EmptySlice(t *testing.T) {
 	var data []User
 
-	var expected []GroupedItem[int, User]
+	expected := []GroupedItem[int, User]{}
 
 	result := GroupBy(data, func(u User) int { return u.ID })
 
