@@ -39,3 +39,7 @@ func (p *Pipeline[T]) Execute() ([]T, error) {
 	}
 	return p.data, nil
 }
+
+func (p *Pipeline[T]) GetOperations() []Operation[T] {
+	return p.operations
+}

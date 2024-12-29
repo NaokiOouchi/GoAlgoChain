@@ -7,7 +7,7 @@ import (
 
 func TestHeapSortOperation(t *testing.T) {
 	pipeline := NewPipeline[Item]().
-		HeapSort(func(a, b Item) int { return a.ID - b.ID })
+		HeapSort(func(a, b Item) bool { return a.ID > b.ID })
 
 	data := []Item{
 		{ID: 3, Name: "Item3", Active: true},
@@ -37,7 +37,7 @@ func TestHeapSortOperation(t *testing.T) {
 
 func TestHeapSortOperation_AlreadySorted(t *testing.T) {
 	pipeline := NewPipeline[int]().
-		HeapSort(func(a, b int) int { return a - b })
+		HeapSort(func(a, b int) bool { return a > b })
 
 	data := []int{1, 2, 3, 4, 5}
 
@@ -57,7 +57,7 @@ func TestHeapSortOperation_AlreadySorted(t *testing.T) {
 
 func TestHeapSortOperation_EmptySlice(t *testing.T) {
 	pipeline := NewPipeline[string]().
-		HeapSort(func(a, b string) int { return len(a) - len(b) })
+		HeapSort(func(a, b string) bool { return a > b })
 
 	var data []string
 
