@@ -149,6 +149,5 @@ func BenchmarkMap(b *testing.B) {
 		if err != nil {
 			b.Fatalf("MapOperation failed: %v", err)
 		}
-
 	}
 }

@@ -8,8 +8,8 @@ type MapOperation[T any] struct {
 // Apply applies the MapOperation to the data.
 func (m *MapOperation[T]) Apply(data []T) ([]T, error) {
 	mappedData := make([]T, len(data))
-	for i, item := range data {
-		mappedData[i] = m.Mapper(item)
+	for i := 0; i < len(data); i++ {
+		mappedData[i] = m.Mapper(data[i])
 	}
 	return mappedData, nil
 }
