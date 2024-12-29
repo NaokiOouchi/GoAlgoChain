@@ -28,21 +28,25 @@ func buildMaxHeap[T any](data []T, cmp func(a, b T) bool) {
 
 // maxHeapify is a helper function that maintains the max heap property.
 func maxHeapify[T any](data []T, i, n int, cmp func(a, b T) bool) {
-	largest := i
-	left := 2*i + 1
-	right := 2*i + 2
+	for {
+		largest := i
+		left := 2*i + 1
+		right := 2*i + 2
 
-	if left < n && cmp(data[left], data[largest]) {
-		largest = left
-	}
+		if left < n && cmp(data[left], data[largest]) {
+			largest = left
+		}
 
-	if right < n && cmp(data[right], data[largest]) {
-		largest = right
-	}
+		if right < n && cmp(data[right], data[largest]) {
+			largest = right
+		}
 
-	if largest != i {
+		if largest == i {
+			break
+		}
+
 		data[i], data[largest] = data[largest], data[i]
-		maxHeapify[T](data, largest, n, cmp)
+		i = largest
 	}
 }
 
