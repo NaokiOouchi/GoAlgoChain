@@ -10,34 +10,48 @@ func (m *MergeSortOperation[T]) Apply(data []T) ([]T, error) {
 	if len(data) < 2 {
 		return data, nil
 	}
-	mid := len(data) / 2
-	left, err := (&MergeSortOperation[T]{Comparator: m.Comparator}).Apply(data[:mid])
-	if err != nil {
-		return nil, err
+
+	// 作業用バッファを再利用
+	buffer := make([]T, len(data))
+	copy(buffer, data)
+
+	// インプレースマージソートの実装
+	mergeSort(data, buffer, 0, len(data)-1, m.Comparator)
+
+	return data, nil
+}
+func mergeSort[T any](data, buffer []T, left, right int, cmp func(a, b T) bool) {
+	if left < right {
+		mid := (left + right) / 2
+		mergeSort[T](data, buffer, left, mid, cmp)
+		mergeSort[T](data, buffer, mid+1, right, cmp)
+		merge(data, buffer, left, mid, right, cmp)
 	}
-	right, err := (&MergeSortOperation[T]{Comparator: m.Comparator}).Apply(data[mid:])
-	if err != nil {
-		return nil, err
-	}
-	return merge(left, right, m.Comparator), nil
 }
 
 // merge merges two sorted slices of data.
-func merge[T any](left, right []T, cmp func(a, b T) bool) []T {
-	result := make([]T, 0, len(left)+len(right))
-	i, j := 0, 0
-	for i < len(left) && j < len(right) {
-		if cmp(left[i], right[j]) {
-			result = append(result, left[i])
+func merge[T any](data, buffer []T, left, mid, right int, cmp func(a, b T) bool) {
+	copy(buffer[left:right+1], data[left:right+1])
+
+	i := left
+	j := mid + 1
+	k := left
+
+	for ; k <= right; k++ {
+		if i > mid {
+			data[k] = buffer[j]
+			j++
+		} else if j > right {
+			data[k] = buffer[i]
+			i++
+		} else if cmp(buffer[i], buffer[j]) {
+			data[k] = buffer[i]
 			i++
 		} else {
-			result = append(result, right[j])
+			data[k] = buffer[j]
 			j++
 		}
 	}
-	result = append(result, left[i:]...)
-	result = append(result, right[j:]...)
-	return result
 }
 
 // MergeSort sorts a slice of data using merge sort.
