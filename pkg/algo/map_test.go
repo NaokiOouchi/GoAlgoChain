@@ -24,7 +24,7 @@ func TestMapOperation_IncrementID(t *testing.T) {
 		{ID: 4, Name: "Item3", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	mappedData, err := pipeline.Execute()
 	if err != nil {
@@ -58,7 +58,7 @@ func TestMapOperation_Identity(t *testing.T) {
 		{ID: 2, Name: "Item2", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	mappedData, err := pipeline.Execute()
 	if err != nil {
@@ -85,7 +85,7 @@ func TestMapOperation_EmptySlice(t *testing.T) {
 
 	var data []Item
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	mappedData, err := pipeline.Execute()
 	if err != nil {
@@ -114,7 +114,7 @@ func TestMapOperation_AllMapped(t *testing.T) {
 		{ID: 2, Name: "MappedItem2", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	mappedData, err := pipeline.Execute()
 	if err != nil {
@@ -142,7 +142,7 @@ func BenchmarkMap(b *testing.B) {
 	for i := 0; i < 1000000; i++ {
 		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
 	}
-	pipeline.data = data
+	pipeline.WithData(data)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_, err := pipeline.Execute()

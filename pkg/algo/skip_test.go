@@ -21,7 +21,7 @@ func TestSkipOperation_SkipN(t *testing.T) {
 		{ID: 4, Name: "Item4", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	skippedData, err := pipeline.Execute()
 	if err != nil {
@@ -48,7 +48,7 @@ func TestSkipOperation_SkipMoreThanLength(t *testing.T) {
 		{ID: 2, Name: "Item2", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	skippedData, err := pipeline.Execute()
 	if err != nil {
@@ -72,7 +72,7 @@ func TestSkipOperation_SkipZero(t *testing.T) {
 		{ID: 1, Name: "Item1", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	skippedData, err := pipeline.Execute()
 	if err != nil {
@@ -96,7 +96,7 @@ func TestSkipOperation_EmptySlice(t *testing.T) {
 
 	var data []Item
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	skippedData, err := pipeline.Execute()
 	if err != nil {
@@ -115,7 +115,7 @@ func BenchmarkSkip(b *testing.B) {
 	for i := 0; i < 1000000; i++ {
 		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
 	}
-	pipeline.data = data
+	pipeline.WithData(data)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {

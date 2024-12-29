@@ -23,7 +23,7 @@ func TestDistinctOperation_RemoveDuplicates(t *testing.T) {
 		{ID: 3, Name: "Item3", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	distinctData, err := pipeline.Execute()
 	if err != nil {
@@ -57,7 +57,7 @@ func TestDistinctOperation_AllUnique(t *testing.T) {
 		{ID: 3, Name: "Item3", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	distinctData, err := pipeline.Execute()
 	if err != nil {
@@ -89,7 +89,7 @@ func TestDistinctOperation_AllDuplicates(t *testing.T) {
 		{ID: 1, Name: "Item1", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	distinctData, err := pipeline.Execute()
 	if err != nil {
@@ -111,7 +111,7 @@ func TestDistinctOperation_EmptySlice(t *testing.T) {
 
 	var data []Item
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	distinctData, err := pipeline.Execute()
 	if err != nil {
@@ -141,7 +141,7 @@ func TestDistinctOperation_MultipleCriteria(t *testing.T) {
 		{ID: 2, Name: "Item2", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	distinctData, err := pipeline.Execute()
 	if err != nil {
@@ -166,7 +166,7 @@ func BenchmarkDistinct(b *testing.B) {
 	for i := 0; i < 100000; i++ {
 		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
 	}
-	pipeline.data = data
+	pipeline.WithData(data)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_, _ = pipeline.Execute()

@@ -16,7 +16,7 @@ func TestMergeSortOperation(t *testing.T) {
 		{ID: 2, Name: "Item2", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	sortedData, err := pipeline.Execute()
 	if err != nil {
@@ -41,7 +41,7 @@ func TestMergeSortOperation_AlreadySorted(t *testing.T) {
 
 	data := []int{1, 2, 3, 4, 5}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	sortedData, err := pipeline.Execute()
 	if err != nil {
@@ -61,7 +61,7 @@ func TestMergeSortOperation_EmptySlice(t *testing.T) {
 
 	var data []string
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	sortedData, err := pipeline.Execute()
 	if err != nil {
@@ -82,7 +82,7 @@ func BenchmarkMergeSort(b *testing.B) {
 	}
 	pipeline := NewPipeline[int]().
 		MergeSort(func(a, b int) bool { return a < b })
-	pipeline.data = data
+	pipeline.WithData(data)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_, err := pipeline.Execute()

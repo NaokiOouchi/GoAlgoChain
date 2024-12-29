@@ -22,7 +22,7 @@ func TestReduceOperation_SumIDs(t *testing.T) {
 		{ID: 6, Name: "Item1", Active: true}, // NameとActiveはaccから継承
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	reducedData, err := pipeline.Execute()
 	if err != nil {
@@ -60,7 +60,7 @@ func TestReduceOperation_MaxID(t *testing.T) {
 		{ID: 3, Name: "Item3", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	reducedData, err := pipeline.Execute()
 	if err != nil {
@@ -91,7 +91,7 @@ func TestReduceOperation_SingleElement(t *testing.T) {
 		{ID: 1, Name: "Item1", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	reducedData, err := pipeline.Execute()
 	if err != nil {
@@ -115,7 +115,7 @@ func TestReduceOperation_EmptySlice(t *testing.T) {
 
 	var data []Item
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	_, err := pipeline.Execute()
 	if err == nil {
@@ -144,7 +144,7 @@ func TestReduceOperation_AllSame(t *testing.T) {
 		{ID: 2, Name: "Item2", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	reducedData, err := pipeline.Execute()
 	if err != nil {
@@ -169,7 +169,7 @@ func BenchmarkReduce(b *testing.B) {
 	for i := 0; i < 1000000; i++ {
 		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: i%2 == 0}
 	}
-	pipeline.data = data
+	pipeline.WithData(data)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_, err := pipeline.Execute()
