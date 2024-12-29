@@ -1,8 +1,11 @@
 package algo
 
 import (
+	"fmt"
+	"math/rand"
 	"reflect"
 	"testing"
+	"time"
 )
 
 func TestGroupBy_SimpleGrouping(t *testing.T) {
@@ -209,4 +212,20 @@ func compareGroupedItems[T any, K comparable](a, b []GroupedItem[K, T]) bool {
 	}
 
 	return true
+}
+
+func BenchmarkGroupBy(b *testing.B) {
+	data := make([]User, 1000000)
+	rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < 1000000; i++ {
+		data[i] = User{
+			ID:   rand.Intn(1000000),
+			Name: fmt.Sprintf("User%d", i),
+		}
+	}
+	keyFunc := func(u User) int { return u.ID }
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		GroupBy(data, keyFunc)
+	}
 }

@@ -147,3 +147,28 @@ func TestFilterOperation_AllMatch(t *testing.T) {
 		}
 	}
 }
+
+// BenchmarkFilterOperation benchmarks the FilterOperation.
+func BenchmarkFilterOperation(b *testing.B) {
+	data := make([]int, 1000000)
+	for i := 0; i < len(data); i++ {
+		data[i] = i
+	}
+
+	predicate := func(x int) bool {
+		return x%2 == 0
+	}
+
+	pipeline := NewPipeline[int]().
+		Filter(predicate)
+	pipeline.data = data
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		_, err := pipeline.Execute()
+		if err != nil {
+			b.Fatalf("Pipeline execution failed: %v", err)
+		}
+	}
+}

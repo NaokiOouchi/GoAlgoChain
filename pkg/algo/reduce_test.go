@@ -1,6 +1,7 @@
 package algo
 
 import (
+	"strconv"
 	"testing"
 )
 
@@ -156,5 +157,24 @@ func TestReduceOperation_AllSame(t *testing.T) {
 
 	if reducedData[0] != expected[0] {
 		t.Errorf("Expected %+v, got %+v", expected[0], reducedData[0])
+	}
+}
+
+func BenchmarkReduce(b *testing.B) {
+	pipeline := NewPipeline[Item]().
+		Reduce(func(acc, item Item) Item {
+			return acc
+		})
+	data := make([]Item, 1000000)
+	for i := 0; i < 1000000; i++ {
+		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: i%2 == 0}
+	}
+	pipeline.data = data
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, err := pipeline.Execute()
+		if err != nil {
+			b.Fatalf("ReduceOperation failed: %v", err)
+		}
 	}
 }
