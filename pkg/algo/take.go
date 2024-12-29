@@ -1,9 +1,5 @@
 package algo
 
-import (
-	"fmt"
-)
-
 // TakeOperation takes the first n items from the data.
 type TakeOperation[T any] struct {
 	Count int
@@ -18,7 +14,6 @@ func (t *TakeOperation[T]) Apply(data []T) ([]T, error) {
 		t.Count = len(data)
 	}
 	takenData := data[:t.Count]
-	fmt.Printf("TakeOperation applied. %d items taken.\n", t.Count)
 	return takenData, nil
 }
 

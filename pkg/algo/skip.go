@@ -1,9 +1,5 @@
 package algo
 
-import (
-	"fmt"
-)
-
 // SkipOperation skips the first n items from the data.
 type SkipOperation[T any] struct {
 	Count int
@@ -18,7 +14,6 @@ func (s *SkipOperation[T]) Apply(data []T) ([]T, error) {
 		return []T{}, nil
 	}
 	skippedData := data[s.Count:]
-	fmt.Printf("SkipOperation applied. %d items skipped.\n", s.Count)
 	return skippedData, nil
 }
 

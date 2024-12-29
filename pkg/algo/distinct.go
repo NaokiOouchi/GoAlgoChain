@@ -1,9 +1,5 @@
 package algo
 
-import (
-	"fmt"
-)
-
 // DistinctOperation removes duplicate items from the data.
 type DistinctOperation[T any] struct {
 	Equal func(a, b T) bool
@@ -24,7 +20,6 @@ func (d *DistinctOperation[T]) Apply(data []T) ([]T, error) {
 			distinctData = append(distinctData, item)
 		}
 	}
-	fmt.Printf("DistinctOperation applied. %d unique items remaining.\n", len(distinctData))
 	return distinctData, nil
 }
 
