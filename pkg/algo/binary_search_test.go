@@ -77,6 +77,19 @@ func TestBinarySearchOperation_NotFound(t *testing.T) {
 	if err == nil {
 		t.Fatalf("Expected error when target is not found, but got nil")
 	}
+
+	ops := pipeline.GetOperations()
+	if len(ops) == 0 {
+		t.Fatalf("No operations found in pipeline")
+	}
+	bsOp, ok := ops[len(ops)-1].(*BinarySearchOperation[Item])
+	if !ok {
+		t.Fatalf("Expected last operation to be BinarySearchOperation, but got %T", ops[len(ops)-1])
+	}
+
+	if bsOp.GetFoundIndex() != -1 {
+		t.Errorf("Expected found index to be -1, but got %d", bsOp.GetFoundIndex())
+	}
 }
 
 func TestBinarySearchOperation_EmptySlice(t *testing.T) {
