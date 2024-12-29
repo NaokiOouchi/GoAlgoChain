@@ -16,7 +16,7 @@ func TestBinarySearchOperation_WithQuickSort_Found(t *testing.T) {
 		{ID: 3, Name: "Item3", Active: true},
 		{ID: 1, Name: "Item1", Active: true},
 	}
-	pipeline.data = data
+	pipeline.WithData(data)
 	_, err := pipeline.Execute()
 	if err != nil {
 		t.Fatalf("Expected target to be found, but got error: %v", err)
@@ -41,7 +41,7 @@ func TestBinarySearchOperation_String_Found(t *testing.T) {
 		BinarySearch(func(a string) bool { return a >= "apple" })
 
 	data := []string{"banana", "apple", "orange", "grape"}
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	_, err := pipeline.Execute()
 	if err != nil {
@@ -74,7 +74,7 @@ func TestBinarySearchOperation_WithQuickSort_NotFound(t *testing.T) {
 		{ID: 3, Name: "Item3", Active: true},
 		{ID: 1, Name: "Item1", Active: true},
 	}
-	pipeline.data = data
+	pipeline.WithData(data)
 	_, err := pipeline.Execute()
 	if err == nil {
 		t.Fatalf("Expected error when target is not found after sorting, but got nil")
@@ -90,7 +90,7 @@ func TestBinarySearchOperation_WithQuickSort_EmptySlice(t *testing.T) {
 		QuickSort(func(a, b Item) bool { return a.ID < b.ID }).
 		BinarySearch(func(a Item) bool { return a.ID == 3 })
 	var data []Item
-	pipeline.data = data
+	pipeline.WithData(data)
 	_, err := pipeline.Execute()
 	if err == nil {
 		t.Fatalf("Expected error when searching in empty slice, but got nil")

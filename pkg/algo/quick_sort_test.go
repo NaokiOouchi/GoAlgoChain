@@ -18,7 +18,7 @@ func TestQuickSortOperation(t *testing.T) {
 		{ID: 2, Name: "Item2", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	sortedData, err := pipeline.Execute()
 	if err != nil {
@@ -43,7 +43,7 @@ func TestQuickSortOperation_AlreadySorted(t *testing.T) {
 
 	data := []int{1, 2, 3, 4, 5}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	sortedData, err := pipeline.Execute()
 	if err != nil {
@@ -63,7 +63,7 @@ func TestQuickSortOperation_EmptySlice(t *testing.T) {
 
 	var data []string
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	sortedData, err := pipeline.Execute()
 	if err != nil {
@@ -86,7 +86,7 @@ func BenchmarkQuickSort(b *testing.B) {
 
 	pipeline := NewPipeline[int]().
 		QuickSort(func(a, b int) bool { return a < b })
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	b.ResetTimer()
 

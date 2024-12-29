@@ -17,7 +17,7 @@ func TestFindOperation(t *testing.T) {
 		{ID: 4, Name: "Item4", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	result, err := pipeline.Execute()
 	if err != nil {
@@ -45,7 +45,7 @@ func TestFindOperation_NoMatches(t *testing.T) {
 		{ID: 4, Name: "Item4", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	result, err := pipeline.Execute()
 	if err != nil {
@@ -66,7 +66,7 @@ func BenchmarkFind(b *testing.B) {
 	for i := 0; i < 100000; i++ {
 		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
 	}
-	pipeline.data = data
+	pipeline.WithData(data)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_, err := pipeline.Execute()

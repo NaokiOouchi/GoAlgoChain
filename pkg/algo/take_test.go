@@ -20,7 +20,7 @@ func TestTakeOperation_TakeN(t *testing.T) {
 		{ID: 2, Name: "Item2", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	takenData, err := pipeline.Execute()
 	if err != nil {
@@ -52,7 +52,7 @@ func TestTakeOperation_TakeMoreThanLength(t *testing.T) {
 		{ID: 2, Name: "Item2", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	takenData, err := pipeline.Execute()
 	if err != nil {
@@ -78,7 +78,7 @@ func TestTakeOperation_TakeZero(t *testing.T) {
 		{ID: 1, Name: "Item1", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	takenData, err := pipeline.Execute()
 	if err != nil {
@@ -99,7 +99,7 @@ func TestTakeOperation_TakeNegative(t *testing.T) {
 		{ID: 2, Name: "Item2", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	takenData, err := pipeline.Execute()
 	if err != nil {
@@ -118,7 +118,7 @@ func BenchmarkTake(b *testing.B) {
 	for i := 0; i < 1000000; i++ {
 		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
 	}
-	pipeline.data = data
+	pipeline.WithData(data)
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		_, err := pipeline.Execute()

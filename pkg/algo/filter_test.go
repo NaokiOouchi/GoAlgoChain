@@ -20,7 +20,7 @@ func TestFilterOperation_FilterActiveItems(t *testing.T) {
 		{ID: 3, Name: "Item3", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	sortedData, err := pipeline.Execute()
 	if err != nil {
@@ -54,7 +54,7 @@ func TestFilterOperation_FilterByID(t *testing.T) {
 		{ID: 3, Name: "Item3b", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	sortedData, err := pipeline.Execute()
 	if err != nil {
@@ -83,7 +83,7 @@ func TestFilterOperation_NoMatch(t *testing.T) {
 		{ID: 4, Name: "Item4", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	sortedData, err := pipeline.Execute()
 	if err != nil {
@@ -101,7 +101,7 @@ func TestFilterOperation_EmptySlice(t *testing.T) {
 
 	var data []Item
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	sortedData, err := pipeline.Execute()
 	if err != nil {
@@ -130,7 +130,7 @@ func TestFilterOperation_AllMatch(t *testing.T) {
 		{ID: 5, Name: "Item5", Active: true},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	sortedData, err := pipeline.Execute()
 	if err != nil {
@@ -161,7 +161,7 @@ func BenchmarkFilterOperation(b *testing.B) {
 
 	pipeline := NewPipeline[int]().
 		Filter(predicate)
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	b.ResetTimer()
 

@@ -8,19 +8,16 @@ import (
 )
 
 func TestBinarySearchOperation_Found(t *testing.T) {
-	pipeline := NewPipeline[Item]().
-		BinarySearch(func(a Item) bool { return a.ID == 3 })
-
 	data := []Item{
 		{ID: 4, Name: "Item4", Active: false},
 		{ID: 2, Name: "Item2", Active: false},
 		{ID: 3, Name: "Item3", Active: true},
 		{ID: 1, Name: "Item1", Active: true},
 	}
-
 	sort.Slice(data, func(i, j int) bool { return data[i].ID < data[j].ID })
-
-	pipeline.data = data
+	pipeline := NewPipeline[Item]().
+		BinarySearch(func(a Item) bool { return a.ID == 3 }).
+		WithData(data)
 
 	_, err := pipeline.Execute()
 	if err != nil {
@@ -44,10 +41,10 @@ func TestBinarySearchOperation_Found(t *testing.T) {
 }
 
 func TestBinarySearchOperation_StringFound(t *testing.T) {
-	pipeline := NewPipeline[string]().
-		BinarySearch(func(a string) bool { return a >= "apple" })
 	data := []string{"banana", "apple", "orange", "grape"}
-	pipeline.data = data
+	pipeline := NewPipeline[string]().
+		BinarySearch(func(a string) bool { return a >= "apple" }).
+		WithData(data)
 	_, err := pipeline.Execute()
 	if err != nil {
 		t.Fatalf("Expected target to be found, but got error: %v", err)
@@ -59,19 +56,16 @@ func TestBinarySearchOperation_StringFound(t *testing.T) {
 }
 
 func TestBinarySearchOperation_NotFound(t *testing.T) {
-	pipeline := NewPipeline[Item]().
-		BinarySearch(func(a Item) bool { return a.ID == 5 })
-
 	data := []Item{
 		{ID: 4, Name: "Item4", Active: false},
 		{ID: 2, Name: "Item2", Active: false},
 		{ID: 3, Name: "Item3", Active: true},
 		{ID: 1, Name: "Item1", Active: true},
 	}
-
 	sort.Slice(data, func(i, j int) bool { return data[i].ID < data[j].ID })
-
-	pipeline.data = data
+	pipeline := NewPipeline[Item]().
+		BinarySearch(func(a Item) bool { return a.ID == 5 }).
+		WithData(data)
 
 	_, err := pipeline.Execute()
 	if err == nil {
@@ -93,12 +87,10 @@ func TestBinarySearchOperation_NotFound(t *testing.T) {
 }
 
 func TestBinarySearchOperation_EmptySlice(t *testing.T) {
-	pipeline := NewPipeline[Item]().
-		BinarySearch(func(a Item) bool { return a.ID == 1 })
-
 	var data []Item
-
-	pipeline.data = data
+	pipeline := NewPipeline[Item]().
+		BinarySearch(func(a Item) bool { return a.ID == 1 }).
+		WithData(data)
 
 	_, err := pipeline.Execute()
 	if err == nil {
@@ -112,8 +104,8 @@ func BenchmarkBinarySearchOperation(b *testing.B) {
 		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
 	}
 	pipeline := NewPipeline[Item]().
-		BinarySearch(func(a Item) bool { return a.ID == 500000 })
-	pipeline.data = data
+		BinarySearch(func(a Item) bool { return a.ID == 500000 }).
+		WithData(data)
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {

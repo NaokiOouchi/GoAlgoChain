@@ -33,6 +33,38 @@ func NewPipeline[T comparable]() *Pipeline[T] {
 	return &Pipeline[T]{operations: []Operation[T]{}, data: []T{}}
 }
 
+// NewPipelineWithData creates a new Pipeline instance with initial data.
+//
+// Example:
+//
+//	data := []int{1, 2, 3, 4, 5}
+//	pipeline := NewPipelineWithData(data).
+//		Filter(func(x int) bool { return x > 2 }).
+//		Map(func(x int) int { return x * 2 }).
+//		QuickSort(func(a, b int) bool { return a < b })
+//
+//	result, err := pipeline.Execute()
+func NewPipelineWithData[T comparable](data []T) *Pipeline[T] {
+	return &Pipeline[T]{operations: []Operation[T]{}, data: data}
+}
+
+// WithData sets the initial data for the Pipeline.
+// It can be used with NewPipeline to set data after pipeline creation.
+//
+// Example:
+//
+//	pipeline := NewPipeline[int]().
+//		WithData([]int{1, 2, 3, 4, 5}).
+//		Filter(func(x int) bool { return x > 2 }).
+//		Map(func(x int) int { return x * 2 }).
+//		QuickSort(func(a, b int) bool { return a < b })
+//
+//	result, err := pipeline.Execute()
+func (p *Pipeline[T]) WithData(data []T) *Pipeline[T] {
+	p.data = data
+	return p
+}
+
 // AddOperation adds an operation to the pipeline.
 // Returns the pipeline for method chaining.
 func (p *Pipeline[T]) AddOperation(op Operation[T]) *Pipeline[T] {

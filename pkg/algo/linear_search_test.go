@@ -15,7 +15,7 @@ func TestLinearSearchOperation_ExactMatch(t *testing.T) {
 		{ID: 4, Name: "Item4", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	_, err := pipeline.Execute()
 	if err != nil {
@@ -36,7 +36,7 @@ func TestLinearSearchOperation_PartialMatch(t *testing.T) {
 		{ID: 4, Name: "Item4", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	_, err := pipeline.Execute()
 	if err != nil {
@@ -55,7 +55,7 @@ func TestLinearSearchOperation_NotFound(t *testing.T) {
 		{ID: 4, Name: "Item4", Active: false},
 	}
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	_, err := pipeline.Execute()
 	if err == nil {
@@ -71,7 +71,7 @@ func TestLinearSearchOperation_EmptySlice(t *testing.T) {
 
 	var data []int
 
-	pipeline.data = data
+	pipeline.WithData(data)
 
 	_, err := pipeline.Execute()
 	if err == nil {
@@ -88,7 +88,7 @@ func BenchmarkLinearSearch(b *testing.B) {
 	for i := 0; i < 1000000; i++ {
 		data[i] = i
 	}
-	pipeline.data = data
+	pipeline.WithData(data)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_, err := pipeline.Execute()
