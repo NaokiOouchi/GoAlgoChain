@@ -78,7 +78,7 @@ func TestQuickSortOperation_EmptySlice(t *testing.T) {
 }
 
 func BenchmarkQuickSort(b *testing.B) {
-	data := make([]int, 10000)
+	data := make([]int, 1000000)
 	rand.New(rand.NewSource(time.Now().UnixNano()))
 	for i := 0; i < len(data); i++ {
 		data[i] = rand.Intn(1000000)
