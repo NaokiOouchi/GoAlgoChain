@@ -1,18 +1,18 @@
 package algo
 
 // Operation is an interface for applying an Operation to a slice of data.
-type Operation[T any] interface {
+type Operation[T comparable] interface {
 	Apply(data []T) ([]T, error)
 }
 
 // Pipeline is a pipeline for applying multiple Operation to a slice of data.
-type Pipeline[T any] struct {
+type Pipeline[T comparable] struct {
 	operations []Operation[T]
 	data       []T
 }
 
 // NewPipeline creates a new Pipeline.
-func NewPipeline[T any]() *Pipeline[T] {
+func NewPipeline[T comparable]() *Pipeline[T] {
 	return &Pipeline[T]{operations: []Operation[T]{}, data: []T{}}
 }
 
