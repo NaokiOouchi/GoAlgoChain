@@ -19,7 +19,6 @@ func (r *ReduceOperation[T]) Apply(data []T) ([]T, error) {
 	for _, item := range data[1:] {
 		acc = r.Reducer(acc, item)
 	}
-	fmt.Printf("ReduceOperation applied. Result: %+v\n", acc)
 	return []T{acc}, nil
 }
 

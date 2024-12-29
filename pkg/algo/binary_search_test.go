@@ -3,6 +3,7 @@ package algo
 
 import (
 	"sort"
+	"strconv"
 	"testing"
 )
 
@@ -89,5 +90,23 @@ func TestBinarySearchOperation_EmptySlice(t *testing.T) {
 	_, err := pipeline.Execute()
 	if err == nil {
 		t.Fatalf("Expected error when searching in empty slice, but got nil")
+	}
+}
+
+func BenchmarkBinarySearchOperation(b *testing.B) {
+	data := make([]Item, 1000000)
+	for i := 0; i < 1000000; i++ {
+		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
+	}
+	pipeline := NewPipeline[Item]().
+		BinarySearch(func(a Item) bool { return a.ID == 500000 })
+	pipeline.data = data
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, err := pipeline.Execute()
+		if err != nil {
+			b.Fatalf("Pipeline execution failed: %v", err)
+		}
 	}
 }

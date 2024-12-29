@@ -1,6 +1,7 @@
 package algo
 
 import (
+	"strconv"
 	"testing"
 )
 
@@ -127,6 +128,26 @@ func TestMapOperation_AllMapped(t *testing.T) {
 	for i, item := range mappedData {
 		if item != expected[i] {
 			t.Errorf("At index %d, expected %+v, got %+v", i, expected[i], item)
+		}
+	}
+}
+
+func BenchmarkMap(b *testing.B) {
+	pipeline := NewPipeline[Item]().
+		Map(func(a Item) Item {
+			a.ID += 1
+			return a
+		})
+	data := make([]Item, 1000000)
+	for i := 0; i < 1000000; i++ {
+		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
+	}
+	pipeline.data = data
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, err := pipeline.Execute()
+		if err != nil {
+			b.Fatalf("MapOperation failed: %v", err)
 		}
 	}
 }

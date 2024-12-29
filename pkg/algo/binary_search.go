@@ -21,7 +21,6 @@ func (b *BinarySearchOperation[T]) Apply(data []T) ([]T, error) {
 
 	if index < len(data) && b.Predicate(data[index]) {
 		b.FoundIndex = index
-		fmt.Printf("Target found at index %d\n", index)
 		return data, nil
 	}
 

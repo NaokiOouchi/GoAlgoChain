@@ -1,8 +1,10 @@
 package algo
 
 import (
+	"math/rand"
 	"reflect"
 	"testing"
+	"time"
 )
 
 func TestQuickSortOperation(t *testing.T) {
@@ -72,5 +74,26 @@ func TestQuickSortOperation_EmptySlice(t *testing.T) {
 
 	if !reflect.DeepEqual(sortedData, expected) {
 		t.Errorf("Expected empty slice, got %v", sortedData)
+	}
+}
+
+func BenchmarkQuickSort(b *testing.B) {
+	data := make([]int, 1000000)
+	rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < len(data); i++ {
+		data[i] = rand.Intn(1000000)
+	}
+
+	pipeline := NewPipeline[int]().
+		QuickSort(func(a, b int) bool { return a < b })
+	pipeline.data = data
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		_, err := pipeline.Execute()
+		if err != nil {
+			b.Fatalf("Pipeline execution failed: %v", err)
+		}
 	}
 }

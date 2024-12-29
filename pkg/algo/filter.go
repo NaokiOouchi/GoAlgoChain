@@ -1,9 +1,5 @@
 package algo
 
-import (
-	"fmt"
-)
-
 // FilterOperation filters items in a slice of data based on a predicate.
 type FilterOperation[T any] struct {
 	Predicate func(T) bool
@@ -11,13 +7,20 @@ type FilterOperation[T any] struct {
 
 // Apply applies the FilterOperation to a slice of data.
 func (f *FilterOperation[T]) Apply(data []T) ([]T, error) {
-	filteredData := make([]T, 0)
-	for _, item := range data {
-		if f.Predicate(item) {
-			filteredData = append(filteredData, item)
+	filteredData := make([]T, 0, len(data))
+
+	for i := 0; i < len(data); i++ {
+		if f.Predicate(data[i]) {
+			filteredData = append(filteredData, data[i])
 		}
 	}
-	fmt.Printf("FilterOperation applied. %d items remaining.\n", len(filteredData))
+
+	if cap(filteredData) > 2*len(data) {
+		optimized := make([]T, len(filteredData))
+		copy(optimized, filteredData)
+		return optimized, nil
+	}
+
 	return filteredData, nil
 }
 

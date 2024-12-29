@@ -78,3 +78,22 @@ func TestLinearSearchOperation_EmptySlice(t *testing.T) {
 		t.Fatalf("Expected error when searching in empty slice, but got nil")
 	}
 }
+
+func BenchmarkLinearSearch(b *testing.B) {
+	pipeline := NewPipeline[int]().
+		LinearSearch(func(item int) bool {
+			return item == 1
+		})
+	data := make([]int, 1000000)
+	for i := 0; i < 1000000; i++ {
+		data[i] = i
+	}
+	pipeline.data = data
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, err := pipeline.Execute()
+		if err != nil {
+			b.Fatalf("Pipeline execution failed: %v", err)
+		}
+	}
+}

@@ -1,6 +1,7 @@
 package algo
 
 import (
+	"strconv"
 	"testing"
 )
 
@@ -155,5 +156,19 @@ func TestDistinctOperation_MultipleCriteria(t *testing.T) {
 		if item != expected[i] {
 			t.Errorf("At index %d, expected %+v, got %+v", i, expected[i], item)
 		}
+	}
+}
+
+func BenchmarkDistinct(b *testing.B) {
+	pipeline := NewPipeline[Item]().
+		Distinct(func(a, b Item) bool { return a.ID == b.ID })
+	data := make([]Item, 100000)
+	for i := 0; i < 100000; i++ {
+		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
+	}
+	pipeline.data = data
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, _ = pipeline.Execute()
 	}
 }

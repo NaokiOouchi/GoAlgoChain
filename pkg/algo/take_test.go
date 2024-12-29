@@ -1,6 +1,7 @@
 package algo
 
 import (
+	"strconv"
 	"testing"
 )
 
@@ -107,5 +108,22 @@ func TestTakeOperation_TakeNegative(t *testing.T) {
 
 	if len(takenData) != 0 {
 		t.Errorf("Expected 0 items, but got %+v", takenData)
+	}
+}
+
+func BenchmarkTake(b *testing.B) {
+	pipeline := NewPipeline[Item]().
+		Take(100)
+	data := make([]Item, 1000000)
+	for i := 0; i < 1000000; i++ {
+		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
+	}
+	pipeline.data = data
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_, err := pipeline.Execute()
+		if err != nil {
+			b.Fatalf("TakeOperation failed: %v", err)
+		}
 	}
 }

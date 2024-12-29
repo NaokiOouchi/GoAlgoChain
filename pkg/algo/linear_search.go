@@ -9,9 +9,8 @@ type LinearSearchOperation[T any] struct {
 
 // Apply applies the linear search operation to the data.
 func (l *LinearSearchOperation[T]) Apply(data []T) ([]T, error) {
-	for idx, item := range data {
+	for _, item := range data {
 		if l.Predicate(item) {
-			fmt.Printf("Target found at index %d\n", idx)
 			return data, nil
 		}
 	}

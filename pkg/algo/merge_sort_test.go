@@ -74,3 +74,20 @@ func TestMergeSortOperation_EmptySlice(t *testing.T) {
 		t.Errorf("Expected empty slice, got %v", sortedData)
 	}
 }
+
+func BenchmarkMergeSort(b *testing.B) {
+	data := make([]int, 1000000)
+	for i := 0; i < 1000000; i++ {
+		data[i] = i
+	}
+	pipeline := NewPipeline[int]().
+		MergeSort(func(a, b int) bool { return a < b })
+	pipeline.data = data
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, err := pipeline.Execute()
+		if err != nil {
+			b.Fatalf("Execute failed: %v", err)
+		}
+	}
+}

@@ -1,9 +1,5 @@
 package algo
 
-import (
-	"fmt"
-)
-
 // MapOperation applies a mapping function to each item in the data.
 type MapOperation[T any] struct {
 	Mapper func(T) T
@@ -12,10 +8,9 @@ type MapOperation[T any] struct {
 // Apply applies the MapOperation to the data.
 func (m *MapOperation[T]) Apply(data []T) ([]T, error) {
 	mappedData := make([]T, len(data))
-	for i, item := range data {
-		mappedData[i] = m.Mapper(item)
+	for i := 0; i < len(data); i++ {
+		mappedData[i] = m.Mapper(data[i])
 	}
-	fmt.Printf("MapOperation applied. %d items mapped.\n", len(mappedData))
 	return mappedData, nil
 }
 

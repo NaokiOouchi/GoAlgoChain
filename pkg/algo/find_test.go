@@ -2,6 +2,7 @@ package algo
 
 import (
 	"reflect"
+	"strconv"
 	"testing"
 )
 
@@ -55,5 +56,22 @@ func TestFindOperation_NoMatches(t *testing.T) {
 
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("Expected empty slice, got %v", result)
+	}
+}
+
+func BenchmarkFind(b *testing.B) {
+	pipeline := NewPipeline[Item]().
+		Find(func(item Item) bool { return item.Active })
+	data := make([]Item, 100000)
+	for i := 0; i < 100000; i++ {
+		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
+	}
+	pipeline.data = data
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, err := pipeline.Execute()
+		if err != nil {
+			b.Fatalf("Execute failed: %v", err)
+		}
 	}
 }
