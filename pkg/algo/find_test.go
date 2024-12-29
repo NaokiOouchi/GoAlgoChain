@@ -5,13 +5,6 @@ import (
 	"testing"
 )
 
-// Item is a test struct for the FindOperation.
-type Item struct {
-	ID     int
-	Name   string
-	Active bool
-}
-
 func TestFindOperation(t *testing.T) {
 	pipeline := NewPipeline[Item]().
 		Find(func(item Item) bool { return item.Active })
