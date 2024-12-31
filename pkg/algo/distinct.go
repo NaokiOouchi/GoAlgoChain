@@ -15,11 +15,17 @@ type DistinctOperation[T any] struct {
 //	    Distinct(func(a, b Item) bool { return a.ID == b.ID })
 //	result, err := pipeline.Execute()
 func (d *DistinctOperation[T]) Apply(data []T) ([]T, error) {
-	distinctData := make([]T, 0)
-	for _, item := range data {
+	if len(data) == 0 {
+		return data, nil
+	}
+	distinctData := make([]T, 0, len(data))
+	distinctData = append(distinctData, data[0])
+	const batchSize = 64
+	for i := 1; i < len(data); i++ {
+		item := data[i]
 		isDistinct := true
-		for _, existing := range distinctData {
-			if d.Equal(item, existing) {
+		for j := max(0, len(distinctData)-batchSize); j < len(distinctData); j++ {
+			if d.Equal(item, distinctData[j]) {
 				isDistinct = false
 				break
 			}
