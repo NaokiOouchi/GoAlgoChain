@@ -4,7 +4,7 @@
 various data operations and algorithms, enabling developers to build efficient and readable data processing workflows
 with ease.
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/NaokiOouchi/GoAlgoChain/pkg/algo.svg)](https://pkg.go.dev/github.com/NaokiOouchi/GoAlgoChain/pkg/algo)
+[![Go Reference](https://pkg.go.dev/badge/github.com/NaokiOouchi/GoAlgoChain/pkg/algo.svg)](https://pkg.go.dev/github.com/NaokiOouchi/GoAlgoChain/pkg/algo)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/NaokiOouchi/GoAlgoChain)](https://github.com/NaokiOouchi/GoAlgoChain/)
 [![Github license](https://img.shields.io/github/license/NaokiOouchi/GoAlgoChain)](https://github.com/NaokiOouchi/GoAlgoChain/blob/main/LICENSE)
 [![Github issues](https://img.shields.io/github/issues/NaokiOouchi/GoAlgoChain)](https://github.com/NaokiOouchi/GoAlgoChain/issues)
@@ -16,12 +16,8 @@ with ease.
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Basic Example](#basic-example)
-    - [Advanced Examples](#advanced-examples)
-- [Examples](#examples)
 - [Benchmark Results](#benchmark-results)
 - [Documentation](#documentation)
-- [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
 
