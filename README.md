@@ -4,6 +4,12 @@
 various data operations and algorithms, enabling developers to build efficient and readable data processing workflows
 with ease.
 
+[![Go Version](https://img.shields.io/github/go-mod/go-version/NaokiOouchi/GoAlgoChain)](https://github.com/NaokiOouchi/GoAlgoChain/)
+[![Github license](https://img.shields.io/github/license/NaokiOouchi/GoAlgoChain)](https://github.com/NaokiOouchi/GoAlgoChain/blob/main/LICENSE)
+[![Github issues](https://img.shields.io/github/issues/NaokiOouchi/GoAlgoChain)](https://github.com/NaokiOouchi/GoAlgoChain/issues)
+[![Github forks](https://img.shields.io/github/forks/NaokiOouchi/GoAlgoChain)](https://github.com/NaokiOouchi/GoAlgoChain/network/members)
+[![Github stars](https://img.shields.io/github/stars/NaokiOouchi/GoAlgoChain)](https://github.com/NaokiOouchi/GoAlgoChain/stargazers)
+
 ## Table of Contents
 
 - [Features](#features)
@@ -187,3 +193,6 @@ Comprehensive documentation is available through GoDoc. You can access it here:
 
 # License
 This project is licensed under the MIT License. See the LICENSE file for details.
+
+# Contact
+For any questions or inquiries, please contact [X](https://x.com/NaoNoaNaoNoaN) .
