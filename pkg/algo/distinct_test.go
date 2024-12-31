@@ -162,8 +162,8 @@ func TestDistinctOperation_MultipleCriteria(t *testing.T) {
 func BenchmarkDistinct(b *testing.B) {
 	pipeline := NewPipeline[Item]().
 		Distinct(func(a, b Item) bool { return a.ID == b.ID })
-	data := make([]Item, 100000)
-	for i := 0; i < 100000; i++ {
+	data := make([]Item, 1000000)
+	for i := 0; i < 1000000; i++ {
 		data[i] = Item{ID: i, Name: "Item" + strconv.Itoa(i), Active: true}
 	}
 	pipeline.WithData(data)
